@@ -1,44 +1,44 @@
-import { it, expect, describe } from 'vitest'
+import { it, expect, describe, beforeEach } from 'vitest'
 import { calculateActivityCompletionPercentage, updateActivity } from '../activities'
 import { Activity } from '../types'
 
-describe('updateActivity', () => {
-  const activity: Activity = {
+let activity: Activity
+
+beforeEach(() => {
+
+  activity = {
     id: '1',
     name: 'test',
-    secondsToComplete: 300
+    secondsToComplete: 3600
   }
-  
+})
+
+describe('updateActivity', () => {
+
   const updatedFields: Partial<Activity> = {
     id: '2',
     name: 'updated',
     secondsToComplete: 1300
   }
 
-  const updatedActivity = updateActivity(activity, updatedFields)
-
-
+  
   it('updates original activity', () => {
-    expect(activity).toEqual(updatedFields)
+    expect(updateActivity(activity, updatedFields)).toEqual(updatedFields)
   })
-
+  
   it('returns updated activity', () => {
+    const updatedActivity = updateActivity(activity, updatedFields)
     expect(updatedActivity).toEqual(updatedFields)
   })
-})
 
-it('calculates activity completion percentage', () => {
-  const activity: Activity = {
-    id: '1',
-    name: 'test',
-    secondsToComplete: 3600
-  }
+  it('calculates activity completion percentage', () => {
 
-  const percentageA = calculateActivityCompletionPercentage(activity, 0)
-  const percentageB = calculateActivityCompletionPercentage(activity, 1800)
-  const percentageC = calculateActivityCompletionPercentage(activity, 3600)
+    const percentageA = calculateActivityCompletionPercentage(activity, 0)
+    const percentageB = calculateActivityCompletionPercentage(activity, 1800)
+    const percentageC = calculateActivityCompletionPercentage(activity, 3600)
 
-  expect(percentageA).toBe(0)
-  expect(percentageB).toBe(50)
-  expect(percentageC).toBe(100)
+    expect(percentageA).toBe(0)
+    expect(percentageB).toBe(50)
+    expect(percentageC).toBe(100)
+  })
 })
