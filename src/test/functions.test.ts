@@ -5,7 +5,7 @@ import {
   getProgressColorClass,
   id
 } from '../functions'
-import { it, expect, vi } from 'vitest'
+import { it, expect, vi, test } from 'vitest'
 import { ProgressColorClass } from '../types'
 import { HUNDRED_PERCENT, LOW_PERCENT, MEDIUM_PERCENT } from '../constants'
 
@@ -33,13 +33,18 @@ it('normalizes select value', () => {
   expect(normalizeSelectValue('1')).toBe(1)
   expect(normalizeSelectValue('random-string')).toBe('random-string')
 })
-it('gets progress color class', () => {
-  expect(getProgressColorClass(0)).toBe(ProgressColorClass.RED)
-  expect(getProgressColorClass(LOW_PERCENT - 1)).toBe(ProgressColorClass.RED)
-  expect(getProgressColorClass(MEDIUM_PERCENT - 1)).toBe(ProgressColorClass.YELLOW)
-  expect(getProgressColorClass(HUNDRED_PERCENT - 1)).toBe(ProgressColorClass.BLUE)
-  expect(getProgressColorClass(HUNDRED_PERCENT)).toBe(ProgressColorClass.GREEN)
+
+test.each([
+  [0, ProgressColorClass.RED],
+  [LOW_PERCENT - 1, ProgressColorClass.RED],
+  [MEDIUM_PERCENT - 1, ProgressColorClass.YELLOW],
+  [HUNDRED_PERCENT - 1, ProgressColorClass.BLUE],
+  [HUNDRED_PERCENT, ProgressColorClass.GREEN],
+])('getProgressColorClass(%i) => %s', (percentage, progress) => {
+  expect(getProgressColorClass(percentage)).toBe(progress)
 })
+
+
 it(' generates id', () => {
   vi.spyOn(Date, 'now').mockReturnValueOnce(1)
   vi.spyOn(Math, 'random').mockReturnValueOnce(10000)
