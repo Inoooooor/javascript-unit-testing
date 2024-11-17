@@ -34,16 +34,25 @@ it('normalizes select value', () => {
   expect(normalizeSelectValue('random-string')).toBe('random-string')
 })
 
+// test.each([
+//   [0, ProgressColorClass.RED],
+//   [LOW_PERCENT - 1, ProgressColorClass.RED],
+//   [MEDIUM_PERCENT - 1, ProgressColorClass.YELLOW],
+//   [HUNDRED_PERCENT - 1, ProgressColorClass.BLUE],
+//   [HUNDRED_PERCENT, ProgressColorClass.GREEN],
+// ])('getProgressColorClass(%i) => %s', (percentage, progress) => {
+//   expect(getProgressColorClass(percentage)).toBe(progress)
+// })
+
 test.each([
-  [0, ProgressColorClass.RED],
-  [LOW_PERCENT - 1, ProgressColorClass.RED],
-  [MEDIUM_PERCENT - 1, ProgressColorClass.YELLOW],
-  [HUNDRED_PERCENT - 1, ProgressColorClass.BLUE],
-  [HUNDRED_PERCENT, ProgressColorClass.GREEN],
-])('getProgressColorClass(%i) => %s', (percentage, progress) => {
+  { percentage: 0, progress: ProgressColorClass.RED },
+  { percentage: LOW_PERCENT - 1, progress: ProgressColorClass.RED },
+  { percentage: MEDIUM_PERCENT - 1, progress: ProgressColorClass.YELLOW },
+  { percentage: HUNDRED_PERCENT - 1, progress: ProgressColorClass.BLUE },
+  { percentage: HUNDRED_PERCENT, progress: ProgressColorClass.GREEN }
+])('getProgressColorClass($percentage) => $progress', ({ percentage, progress }) => {
   expect(getProgressColorClass(percentage)).toBe(progress)
 })
-
 
 it(' generates id', () => {
   vi.spyOn(Date, 'now').mockReturnValueOnce(1)
