@@ -1,13 +1,14 @@
-import { it, expect } from 'vitest'
+import { it, expect, describe } from 'vitest'
 import { calculateActivityCompletionPercentage, updateActivity } from '../activities'
 import { Activity } from '../types'
 
-it('updates activity', () => {
+describe('updateActivity', () => {
   const activity: Activity = {
     id: '1',
     name: 'test',
     secondsToComplete: 300
   }
+  
   const updatedFields: Partial<Activity> = {
     id: '2',
     name: 'updated',
@@ -16,8 +17,14 @@ it('updates activity', () => {
 
   const updatedActivity = updateActivity(activity, updatedFields)
 
-  expect(activity).toEqual(updatedFields)
-  expect(updatedActivity).toEqual(updatedFields)
+
+  it('updates original activity', () => {
+    expect(activity).toEqual(updatedFields)
+  })
+
+  it('returns updated activity', () => {
+    expect(updatedActivity).toEqual(updatedFields)
+  })
 })
 
 it('calculates activity completion percentage', () => {

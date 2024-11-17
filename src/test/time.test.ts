@@ -1,7 +1,7 @@
 import { it, expect, vi } from 'vitest'
 import { today } from '../time'
 
-it.only('gets current date', () => {
+it('gets current date', () => {
   const dateA = new Date('1990-01-01')
 
   vi.setSystemTime(dateA)
